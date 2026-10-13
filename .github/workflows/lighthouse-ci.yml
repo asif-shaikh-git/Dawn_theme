@@ -16,7 +16,7 @@ jobs:
 
     steps:
       - name: Checkout Dawn theme
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
 
       - name: Run Shopify Lighthouse CI
         uses: shopify/lighthouse-ci-action@v1
