@@ -1,0 +1,29 @@
+name: Shopify Lighthouse CI
+
+on:
+  push:
+    branches:
+      - main
+
+permissions:
+  contents: read
+  checks: write
+
+jobs:
+  lighthouse:
+    name: Lighthouse
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Dawn theme
+        uses: actions/checkout@v4
+
+      - name: Run Shopify Lighthouse CI
+        uses: shopify/lighthouse-ci-action@v1
+        with:
+          store: ${{ secrets.SHOP_STORE }}
+          password: ${{ secrets.SHOP_PASSWORD }}
+          access_token: ${{ secrets.SHOP_ACCESS_TOKEN }}
+          collection_handle: all
+          lhci_min_score_performance: 0.6
+          lhci_min_score_accessibility: 0.9
