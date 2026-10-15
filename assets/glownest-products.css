@@ -1,0 +1,63 @@
+/* GlowNest product card styling */
+
+/* Keep product cards visually consistent */
+.glownest-products .card-wrapper {
+  height: 100%;
+}
+
+.glownest-products .card {
+  height: 100%;
+  border-radius: 12px;
+  overflow: visible;
+}
+
+/* Consistent image area */
+.glownest-products .card__inner {
+  overflow: hidden;
+  border-radius: 12px;
+  background: #f7f7f7;
+}
+
+/* Product image behavior */
+.glownest-products .card__media img {
+  object-fit: cover;
+  transition: transform 250ms ease;
+}
+
+/* Subtle image zoom on hover */
+@media (hover: hover) and (prefers-reduced-motion: no-preference) {
+  .glownest-products .card-wrapper:hover .card__media img {
+    transform: scale(1.04);
+  }
+}
+
+/* Consistent information area */
+.glownest-products .card__content {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+}
+
+/* Product title */
+.glownest-products .card__heading {
+  font-size: 1.5rem;
+  line-height: 1.45;
+}
+
+/* Product information spacing */
+.glownest-products .card-information {
+  margin-top: 0.5rem;
+}
+
+/* Keyboard accessibility */
+.glownest-products .card-wrapper:focus-within {
+  outline: 2px solid currentColor;
+  outline-offset: 4px;
+}
+
+/* Respect reduced-motion preferences */
+@media (prefers-reduced-motion: reduce) {
+  .glownest-products .card__media img {
+    transition: none;
+  }
+}

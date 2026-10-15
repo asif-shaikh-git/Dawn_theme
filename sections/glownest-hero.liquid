@@ -1,0 +1,458 @@
+{% liquid
+  assign desktop_image = section.settings.image
+  assign mobile_image = section.settings.mobile_image
+  assign hero_heading = section.settings.heading
+  assign hero_description = section.settings.description
+  assign hero_button_label = section.settings.button_label
+  assign hero_button_link = section.settings.button_link
+  assign secondary_button_label = section.settings.secondary_button_label
+  assign secondary_button_link = section.settings.secondary_button_link
+%}
+
+<section
+  id="GlowNestHero-{{ section.id }}"
+  class="glownest-hero glownest-hero--{{ section.settings.height }}"
+  style="
+    --hero-overlay-opacity: {{ section.settings.overlay_opacity | divided_by: 100.0 }};
+    --hero-content-width: {{ section.settings.content_width }}px;
+    --hero-text-color: {{ section.settings.text_color }};
+  "
+>
+  {% if desktop_image != blank %}
+    <picture class="glownest-hero__media">
+      {% if mobile_image != blank %}
+        <source
+          media="(max-width: 749px)"
+          srcset="
+            {{ mobile_image | image_url: width: 750 }} 750w,
+            {{ mobile_image | image_url: width: 1100 }} 1100w
+          "
+        >
+      {% endif %}
+
+      {{
+        desktop_image
+        | image_url: width: 2400
+        | image_tag:
+          widths: '750, 1100, 1500, 2000, 2400',
+          sizes: '100vw',
+          class: 'glownest-hero__image',
+          fetchpriority: 'high'
+      }}
+    </picture>
+  {% else %}
+    <div class="glownest-hero__placeholder">
+      {{ 'lifestyle-1' | placeholder_svg_tag: 'glownest-hero__placeholder-svg' }}
+    </div>
+  {% endif %}
+
+  <div class="glownest-hero__overlay"></div>
+
+  <div class="glownest-hero__container page-width">
+    <div class="glownest-hero__content glownest-hero__content--{{ section.settings.content_position }}">
+      <div class="glownest-hero__text glownest-hero__text--{{ section.settings.text_alignment }}">
+        {% if section.settings.eyebrow != blank %}
+          <p class="glownest-hero__eyebrow">
+            {{ section.settings.eyebrow | escape }}
+          </p>
+        {% endif %}
+
+        {% if hero_heading != blank %}
+          <h1 class="glownest-hero__heading">
+            {{ hero_heading | escape }}
+          </h1>
+        {% endif %}
+
+        {% if hero_description != blank %}
+          <div class="glownest-hero__description rte">
+            {{ hero_description }}
+          </div>
+        {% endif %}
+
+        {% if hero_button_label != blank or secondary_button_label != blank %}
+          <div class="glownest-hero__buttons">
+            {% if hero_button_label != blank %}
+              {% if hero_button_link != blank %}
+                <a
+                  class="button glownest-hero__button"
+                  href="{{ hero_button_link }}"
+                >
+                  {{ hero_button_label | escape }}
+                </a>
+              {% else %}
+                <span class="button glownest-hero__button">
+                  {{ hero_button_label | escape }}
+                </span>
+              {% endif %}
+            {% endif %}
+
+            {% if secondary_button_label != blank %}
+              {% if secondary_button_link != blank %}
+                <a
+                  class="button button--secondary glownest-hero__button glownest-hero__button--secondary"
+                  href="{{ secondary_button_link }}"
+                >
+                  {{ secondary_button_label | escape }}
+                </a>
+              {% else %}
+                <span class="button button--secondary glownest-hero__button glownest-hero__button--secondary">
+                  {{ secondary_button_label | escape }}
+                </span>
+              {% endif %}
+            {% endif %}
+          </div>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  #GlowNestHero-{{ section.id }} {
+    position: relative;
+    isolation: isolate;
+    overflow: hidden;
+    color: var(--hero-text-color);
+    background: #eeeeee;
+  }
+
+  #GlowNestHero-{{ section.id }}.glownest-hero--small {
+    min-height: 420px;
+  }
+
+  #GlowNestHero-{{ section.id }}.glownest-hero--medium {
+    min-height: 560px;
+  }
+
+  #GlowNestHero-{{ section.id }}.glownest-hero--large {
+    min-height: 700px;
+  }
+
+  #GlowNestHero-{{ section.id }} .glownest-hero__media,
+  #GlowNestHero-{{ section.id }} .glownest-hero__placeholder,
+  #GlowNestHero-{{ section.id }} .glownest-hero__overlay {
+    position: absolute;
+    inset: 0;
+  }
+
+  #GlowNestHero-{{ section.id }} .glownest-hero__image {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+  }
+
+  #GlowNestHero-{{ section.id }} .glownest-hero__placeholder {
+    display: grid;
+    place-items: center;
+  }
+
+  #GlowNestHero-{{ section.id }} .glownest-hero__placeholder-svg {
+    width: 100%;
+    height: 100%;
+  }
+
+  #GlowNestHero-{{ section.id }} .glownest-hero__overlay {
+    z-index: 0;
+    background: rgba(0, 0, 0, var(--hero-overlay-opacity));
+    pointer-events: none;
+  }
+
+  #GlowNestHero-{{ section.id }} .glownest-hero__container {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    align-items: center;
+    min-height: inherit;
+    padding-top: 64px;
+    padding-bottom: 64px;
+  }
+
+  #GlowNestHero-{{ section.id }} .glownest-hero__content {
+    width: 100%;
+    display: flex;
+  }
+
+  #GlowNestHero-{{ section.id }} .glownest-hero__content--left {
+    justify-content: flex-start;
+  }
+
+  #GlowNestHero-{{ section.id }} .glownest-hero__content--center {
+    justify-content: center;
+  }
+
+  #GlowNestHero-{{ section.id }} .glownest-hero__content--right {
+    justify-content: flex-end;
+  }
+
+  #GlowNestHero-{{ section.id }} .glownest-hero__text {
+    width: 100%;
+    max-width: var(--hero-content-width);
+  }
+
+  #GlowNestHero-{{ section.id }} .glownest-hero__text--left {
+    text-align: left;
+  }
+
+  #GlowNestHero-{{ section.id }} .glownest-hero__text--center {
+    text-align: center;
+  }
+
+  #GlowNestHero-{{ section.id }} .glownest-hero__text--right {
+    text-align: right;
+  }
+
+  #GlowNestHero-{{ section.id }} .glownest-hero__eyebrow {
+    margin: 0 0 16px;
+    font-size: 1.2rem;
+    font-weight: 700;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+  }
+
+  #GlowNestHero-{{ section.id }} .glownest-hero__heading {
+    margin: 0;
+    color: inherit;
+    font-size: clamp(3.2rem, 5.5vw, 6.4rem);
+    line-height: 1.05;
+    letter-spacing: -0.045em;
+    overflow-wrap: anywhere;
+  }
+
+  #GlowNestHero-{{ section.id }} .glownest-hero__description {
+    margin-top: 20px;
+    font-size: 1.6rem;
+    line-height: 1.7;
+  }
+
+  #GlowNestHero-{{ section.id }} .glownest-hero__description > *:first-child {
+    margin-top: 0;
+  }
+
+  #GlowNestHero-{{ section.id }} .glownest-hero__description > *:last-child {
+    margin-bottom: 0;
+  }
+
+  #GlowNestHero-{{ section.id }} .glownest-hero__buttons {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 12px;
+    margin-top: 30px;
+  }
+
+  #GlowNestHero-{{ section.id }} .glownest-hero__text--center .glownest-hero__buttons {
+    justify-content: center;
+  }
+
+  #GlowNestHero-{{ section.id }} .glownest-hero__text--right .glownest-hero__buttons {
+    justify-content: flex-end;
+  }
+
+  #GlowNestHero-{{ section.id }} .glownest-hero__button {
+    text-decoration: none;
+  }
+
+  #GlowNestHero-{{ section.id }} .glownest-hero__button--secondary {
+    border-color: currentColor;
+  }
+
+   /* Mobile styles */
+   
+  @media screen and (max-width: 749px) {
+    #GlowNestHero-{{ section.id }}.glownest-hero--small {
+      min-height: 360px;
+    }
+
+    #GlowNestHero-{{ section.id }}.glownest-hero--medium {
+      min-height: 440px;
+    }
+
+    #GlowNestHero-{{ section.id }}.glownest-hero--large {
+      min-height: 560px;
+    }
+
+    #GlowNestHero-{{ section.id }} .glownest-hero__container {
+      padding-top: 48px;
+      padding-bottom: 48px;
+    }
+
+    #GlowNestHero-{{ section.id }} .glownest-hero__heading {
+      font-size: clamp(3rem, 9vw, 4.4rem);
+    }
+
+    #GlowNestHero-{{ section.id }} .glownest-hero__description {
+      font-size: 1.4rem;
+    }
+
+    #GlowNestHero-{{ section.id }} .glownest-hero__buttons {
+      gap: 10px;
+    }
+
+    #GlowNestHero-{{ section.id }} .glownest-hero__button {
+      max-width: 100%;
+    }
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    #GlowNestHero-{{ section.id }} .glownest-hero__button {
+      transition: opacity 180ms ease;
+    }
+
+    #GlowNestHero-{{ section.id }} .glownest-hero__button:hover {
+      opacity: 0.85;
+    }
+  }
+</style>
+
+{% schema %}
+{
+  "name": "GlowNest hero",
+  "tag": "section",
+  "class": "section-glownest-hero",
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Desktop image"
+    },
+    {
+      "type": "image_picker",
+      "id": "mobile_image",
+      "label": "Mobile image"
+    },
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Small heading",
+      "default": "Thoughtfully chosen essentials"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Make your space feel like home."
+    },
+    {
+      "type": "richtext",
+      "id": "description",
+      "label": "Description",
+      "default": "<p>Discover everyday essentials designed to bring comfort and character to your home.</p>"
+    },
+    {
+      "type": "text",
+      "id": "button_label",
+      "label": "Primary button label",
+      "default": "Shop collection"
+    },
+    {
+      "type": "url",
+      "id": "button_link",
+      "label": "Primary button link"
+    },
+    {
+      "type": "text",
+      "id": "secondary_button_label",
+      "label": "Secondary button label",
+      "default": "Explore bestsellers"
+    },
+    {
+      "type": "url",
+      "id": "secondary_button_link",
+      "label": "Secondary button link"
+    },
+    {
+      "type": "select",
+      "id": "height",
+      "label": "Section height",
+      "options": [
+        {
+          "value": "small",
+          "label": "Small"
+        },
+        {
+          "value": "medium",
+          "label": "Medium"
+        },
+        {
+          "value": "large",
+          "label": "Large"
+        }
+      ],
+      "default": "large"
+    },
+    {
+      "type": "select",
+      "id": "content_position",
+      "label": "Content position",
+      "options": [
+        {
+          "value": "left",
+          "label": "Left"
+        },
+        {
+          "value": "center",
+          "label": "Center"
+        },
+        {
+          "value": "right",
+          "label": "Right"
+        }
+      ],
+      "default": "left"
+    },
+    {
+      "type": "select",
+      "id": "text_alignment",
+      "label": "Text alignment",
+      "options": [
+        {
+          "value": "left",
+          "label": "Left"
+        },
+        {
+          "value": "center",
+          "label": "Center"
+        },
+        {
+          "value": "right",
+          "label": "Right"
+        }
+      ],
+      "default": "left"
+    },
+    {
+      "type": "range",
+      "id": "content_width",
+      "label": "Content width",
+      "min": 320,
+      "max": 800,
+      "step": 20,
+      "unit": "px",
+      "default": 600
+    },
+    {
+      "type": "range",
+      "id": "overlay_opacity",
+      "label": "Image overlay opacity",
+      "min": 0,
+      "max": 80,
+      "step": 5,
+      "unit": "%",
+      "default": 25
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text color",
+      "default": "#FFFFFF"
+    }
+  ],
+  "presets": [
+    {
+      "name": "GlowNest hero"
+    }
+  ]
+}
+{% endschema %}
