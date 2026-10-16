@@ -1,8 +1,19 @@
-/* GlowNest product card styling */
+/* =========================================
+   GlowNest — Product Card Styling
+   ========================================= */
 
-/* Keep product cards visually consistent */
+/* 1. Consistent card dimensions */
+
+.glownest-products .grid__item {
+  display: flex;
+}
+
 .glownest-products .card-wrapper {
+  width: 100%;
   height: 100%;
+  transition:
+    transform 0.3s ease,
+    box-shadow 0.3s ease;
 }
 
 .glownest-products .card {
@@ -11,52 +22,113 @@
   overflow: visible;
 }
 
-/* Consistent image area */
+/* 2. Consistent Product image container */
+
 .glownest-products .card__inner {
+  aspect-ratio: 1 / 1;
   overflow: hidden;
   border-radius: 12px;
   background: #f7f7f7;
 }
 
-/* Product image behavior */
-.glownest-products .card__media img {
-  object-fit: cover;
-  transition: transform 250ms ease;
+/* 4. Fill image container consistently */
+
+.glownest-products .card__media {
+  width: 100%;
 }
 
-/* Subtle image zoom on hover */
+/* 5. Product image */
+
+.glownest-products .card__media img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  object-position: center;
+  transition: transform 0.3s ease;
+}
+
+/* 6. Hover effects */
+
 @media (hover: hover) and (prefers-reduced-motion: no-preference) {
+  /* Slight image zoom */
   .glownest-products .card-wrapper:hover .card__media img {
     transform: scale(1.04);
   }
+
+  /* Lift the complete card */
+  .glownest-products .card-wrapper:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+  }
 }
 
-/* Consistent information area */
+/* 7. Product information layout */
+
 .glownest-products .card__content {
   display: flex;
   flex-direction: column;
-  flex-grow: 1;
+  align-items: stretch;
+  text-align: left;
+  padding: 1.2rem;
 }
 
-/* Product title */
+/* 8. Product title */
+
 .glownest-products .card__heading {
+  margin: 0;
+  text-align: left;
   font-size: 1.5rem;
-  line-height: 1.45;
+  line-height: 1.4;
 }
 
-/* Product information spacing */
+/* 9. Price and product information */
+
 .glownest-products .card-information {
+  margin-top: 0.6rem;
+  text-align: left;
+}
+
+/* 10. Keep product information aligned */
+
+.glownest-products .price {
+  justify-content: flex-start;
+}
+
+/* 11. Product badge spacing */
+
+.glownest-products .card__badge {
   margin-top: 0.5rem;
 }
 
-/* Keyboard accessibility */
+
+/* 12. Clickable elements */
+
+.glownest-products .card-wrapper a {
+  cursor: pointer;
+}
+
+/* 13. Keyboard accessibility */
+
 .glownest-products .card-wrapper:focus-within {
   outline: 2px solid currentColor;
   outline-offset: 4px;
 }
 
-/* Respect reduced-motion preferences */
+/* 14. Mobile adjustments */
+
+@media screen and (max-width: 749px) {
+  .glownest-products .card__heading {
+    font-size: 1.4rem;
+  }
+}
+
+/* 15. Respect reduced-motion preferences */
+
 @media (prefers-reduced-motion: reduce) {
+  .glownest-products .card-wrapper {
+    transition: none;
+  }
+
   .glownest-products .card__media img {
     transition: none;
   }
